@@ -1,0 +1,32 @@
+<div class='thumb-wrapper'>
+  <div class='flex thumb-header'>
+    <span class='thumb-header-abbr'>
+      <%= product.sub_category_name %>
+    </span>
+    <span class='thumb-time-date'>
+      <span class='glyphicon glyphicon-time'></span>
+      <span>
+        <%= product.date_string %>
+      </span>
+    </span>
+  </div>
+    <div class='thumb-image'>
+      <%= image_tag product.picture_url(:thumbnail), alt: '' %>
+    </div>
+    <div class='flex thumb-footer'>
+      <span class='thumb-footer-model'>
+        <%= product.name %>
+      </span>
+      <div class='thumb-star-wrapper'>
+        <%= render 'products/rating', rating: product.rating %>
+      </div>
+    </div>
+    <div class='thumb-description text-left'>
+      <p>
+        <%= truncate product.description, length: 110, separator: ' ' %>
+      </p>
+    </div>
+    <div class='thumb-moreinfo-link'>
+      <%= link_to 'More Info...', product %>
+    </div>
+</div>

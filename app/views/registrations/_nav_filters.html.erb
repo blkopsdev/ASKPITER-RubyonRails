@@ -1,0 +1,20 @@
+<nav class="navbar navbar-default" id="nav-filters">
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <% if user_signed_in? %>
+        <ul class="nav navbar-nav col-md-4 nav-center">
+          <li class="navbar-btn col-md-3">
+            <%= link_to 'Profile', edit_user_registration_path %>
+          </li>
+          <li class="navbar-btn col-md-3">
+            <%= link_to 'Reviews', review_users_path %>
+          </li>
+          <li class="navbar-btn col-md-3">
+            <%= link_to 'Photos', photo_users_path %>
+          </li>
+          <li class="navbar-btn col-md-3">
+            <%= link_to 'Videos', video_users_path %>
+          </li>
+        </ul>
+    <% end %>
+  </div>
+</nav>

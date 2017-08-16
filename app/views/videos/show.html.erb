@@ -1,0 +1,40 @@
+<div class='main-container'>
+  <main class='main-content-wrapper'>
+    <%= render partial:'products/breadcrumbs', locals: { product: @product } %>
+    <div class='container-fluid'>
+      <div class='row'>
+        <div class='col-xs-10 col-xs-offset-1'>
+          <div class='embed-responsive embed-responsive-16by9'>
+            <iframe class='embed-responsive-item' src='<%= @video.url %>'></iframe>
+          </div>
+        </div>
+      </div>
+      <div class='row media-info'>
+        <div class='col-xs-10 col-xs-offset-1'>
+
+          <div class="media-description">
+            <p><%= @video.comment%></p>
+          </div>
+
+          <div class="media-share">
+            <ul class="list-inline">
+              <li><strong>Share this video</strong></li>
+              <li><a href="#"><%=image_tag asset_path('twitter_img_small.png')%></a></li>
+              <li><a href="#"><%=image_tag asset_path('facebook_img_small.png')%></a></li>
+            </ul>
+          </div>
+
+          <% if @more_videos.any? %>
+          <div class="more-media">
+            <div class="more-media-title">
+              <h2>More <%= @product.name %> Videos</h2>
+            </div>
+            <%= render partial:'videos/show/more_videos', locals: {videos: @more_videos} %>
+          </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

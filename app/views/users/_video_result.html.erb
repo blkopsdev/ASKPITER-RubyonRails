@@ -1,0 +1,13 @@
+<% if @media.total_count == 0 %>
+  <div class="flash alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    Sorry, your search returned no products.
+  </div>
+<% else %>
+  <% @media.each do |media_object| %>
+    <% if media_object.is_a?(Video) %>
+      <%= render partial: 'video_thumbnail', locals: { video: media_object } %>
+    <% end %>
+  <%end %>
+<% end %>
+<div class="hidden search-results-have-more" data-hasmore="<%= @media.next_page %>"></div>

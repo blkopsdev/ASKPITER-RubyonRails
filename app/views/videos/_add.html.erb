@@ -1,0 +1,31 @@
+<%= addendum_storage 'video' %>
+
+<%= form_for Video.add_billet, url: videos_path, html: { class: 'form-horizontal' } do |form| %>
+
+  <%= render 'shared/selects', f: form %>
+
+  <div class='form-group'>
+    <%= form.label :url, class: 'col-sm-2 control-label' %>
+    <div class='col-sm-10'>
+      <%= form.text_field :url, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :comment, class: 'col-sm-2 control-label' %>
+    <div class='col-sm-10'>
+      <%= form.text_area :comment, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class='form-group'>
+    <div class='col-sm-offset-2 col-sm-10'>
+      <%= form.submit class: 'btn btn-primary', id:'submit-video', style:'display:none;' %>
+    </div>
+  </div>
+
+<% end %>
+
+<% content_for :action do %>
+  <%= link_to "Upload", '#', class:'btn upload-button', data:{submit_button:true, submit_target:'#submit-video'} %>
+<% end %>

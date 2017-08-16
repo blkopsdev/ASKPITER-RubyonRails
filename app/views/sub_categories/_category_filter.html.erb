@@ -1,0 +1,34 @@
+
+<div class="filter-wrapper">
+  <%= search_category_link category, params[:sub_categories]  do %>
+    <label class="checkbox-style">
+      <input id="<%= "category-#{category.id}" %>" type="checkbox" class="checkbox-inline" <%= category.searched_for?( params[:sub_categories]) ? "checked='checked'" : "" %>>
+        <% if category.searched_not_for_all?( params[:sub_categories] ) %>
+          <span class="dash"></span>
+        <% else %>
+          <span></span>
+        <% end %>
+    </label>
+    <label for="<%= "category-#{category.id}" %>" class="filter-name"><%= category.name %></label>
+  <% end %>
+    <% if category.searched_for?( params[:sub_categories]) %>
+      <span class="filter-plus-icon glyphicon glyphicon-plus glyphicon-minus"></span>
+      <div class="sub-filter-wrapper display">
+    <% else %>
+      <span class="filter-plus-icon glyphicon glyphicon-plus"></span>
+      <div class="sub-filter-wrapper">
+    <% end %>
+    <% category.sub_categories.each do |sub_cat| %>
+        <%= search_sub_category_link( sub_cat, params[:sub_categories] ) do %>
+        <label class="checkbox-style">
+          <input id="<%= "category-#{sub_cat.id}" %>"
+                 type="checkbox"
+                 class="checkbox-inline"
+                 <%= params[:sub_categories].is_a?(Array) && params[:sub_categories].include?(sub_cat.id.to_s) ? "checked='checked'" : "" %>>
+            <span></span>
+        </label>
+        <label for="<%= "category-#{sub_cat.id}" %>" class="filter-name"><%= sub_cat.name %></label>
+      <% end %>
+    <% end %>
+    </div>
+</div>

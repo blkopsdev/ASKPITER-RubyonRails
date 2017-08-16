@@ -1,0 +1,74 @@
+
+.home-page {
+  min-height: 900px;
+  background: image-url('homepage-background.jpg') no-repeat top left;
+  background-size: cover;
+  padding-top: 200px;
+
+  .home-page-text {
+    text-align: center;
+    padding-top: 200px;
+    font-size: 18px;
+    line-height: 26px;
+    color: #fff;
+
+    p {
+      margin-bottom: 20px;
+    }
+
+    background-color: rgba( 0, 0, 0, 0.4 );
+    border: 0 solid #000;
+    border-radius: 6px;
+    padding: 30px;
+    width: 90%;
+    margin: auto;
+  }
+
+  .search-box {
+    display: inline-block;
+    .compare-button-wrapper, .search-field-wrapper {
+      display: inline-block;
+      margin-top: 15px;
+    }
+    .search-field-wrapper {
+      margin-right: 0;
+      .submit-icon {
+        top: 5px;
+      }
+    }
+    form {
+      display: inline-block;
+    }
+  }
+}
+
+#categories-button {
+  margin-top: 3px;
+}
+
+@media( max-width: 499px ) {
+  .search-box .search-field-wrapper {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+}
+@media( min-width: 500px ) and ( max-width: 768px ) {
+  .search-box .compare-button-wrapper .btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+@media( min-width: 769px ) {
+  .home-page .home-page-text {
+    width: 75%;
+  }
+}
+@media( min-width: 1025px ) {
+  .search-box .compare-button-wrapper .btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .home-page .home-page-text {
+    width: 50%;
+  }
+}

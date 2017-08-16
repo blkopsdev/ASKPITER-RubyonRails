@@ -1,0 +1,16 @@
+<div class='dropdown'>
+  <button type='button' id='upload-menu' class='btn btn-bg upload-btn dropdown-toggle'
+          data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'>
+    <p class="visible-md visible-lg">Upload <span class='caret'></span></p>
+    <span class="visible-xs visible-sm"><i class="glyphicon glyphicon-upload"></i></span>
+  </button>
+  <ul class='dropdown-menu header-side-dropdown-button' aria-labelledby='upload-menu'>
+    <li>
+      <%= modal_button_tag 'Photo', modals_path(action: :add_photo), link: true %>
+    </li>
+    <li role='separator' class='divider'></li>
+    <li>
+      <%= modal_button_tag 'Video', modals_path(action: :add_video), link: true %>
+    </li>
+  </ul>
+</div>

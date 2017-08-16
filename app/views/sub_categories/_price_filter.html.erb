@@ -1,0 +1,45 @@
+<div class="filter-wrapper">
+    <a class='sub-filter-checkbox'>
+      <div id="slider">
+        <%= hidden_field_tag 'price_from', :onchange => "$(this).closest('form').submit();" %>
+        <%= hidden_field_tag 'price_to', :onchange => "$(this).closest('form').submit();" %>
+      </div>
+    </a>
+
+      <div class='thumb-description price-range'>
+          <div class='text-left' id='label_min'>
+              <p><%= prices.min.to_i %></p>
+          </div>
+          <div class='text-right' id='label_max'>
+              <p><%= prices.max.to_i %></p>
+          </div>
+      </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+      var slider = $("#slider").slider({
+          range: true,
+          min: <%= prices.min.to_i %>,
+          max: <%= prices.max.to_i %>,
+          values: [<%= prices.min.to_i %>, <%= prices.max.to_i %>],
+          slide: function(event, ui) {
+              $("#price_from").val(ui.values[0]);
+              $("#price_to").val(ui.values[1]);
+              $("#label_min").text(ui.values[0]);
+              $("#label_max").text(ui.values[1]);
+          }
+      });
+      $("#price_from").val(slider.slider("values")[0]);
+      $("#price_to").val(slider.slider("values")[1]);
+
+      $("#label_min").text(slider.slider("values")[0]);
+      $("#label_max").text(slider.slider("values")[1]);
+      $(".ui-slider-handle").focus();
+
+      $('body').on('mouseup', '#slider', function() {
+        $('#filter_form').submit();
+       });
+  });
+</script>
+

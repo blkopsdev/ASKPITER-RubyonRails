@@ -1,0 +1,18 @@
+<div class="filter-wrapper">
+    <a class='sub-filter-checkbox'>
+      <label class="checkbox-style">
+        <%= select_tag "year_from",
+                                          options_for_select(years, :selected => params[:year_from]),
+                                          prompt: 'from',
+                                          :class => "check__form" %>
+
+
+        <%= select_tag "year_to",
+                                        options_for_select(years, :selected => params[:year_to]),
+                                        prompt: 'to',
+                                        :class => "check__form" %>
+
+      </label>
+    </a>
+</div>
+

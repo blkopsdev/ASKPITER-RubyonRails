@@ -1,0 +1,37 @@
+<h1>
+  <%= company.name %>
+  <small class='pull-right'>
+    <%= link_to company.url, company.url, :target => "_blank" %>
+  </small>
+</h1>
+<p>
+  <%= company.description %>
+</p>
+<h2>Contacts:</h2>
+<address>
+  <% if company.email? %>
+    <p>
+      <strong>Contact Email: </strong><%= company.email %>
+    </p>
+  <% end %>
+  
+  <% unless company.address == nil %>
+    <p>
+      <strong>Address: </strong><%= company.address.street %> <%= company.address.city %> <%= company.address.postcode %>
+    </p>
+  <% end %>
+  
+  
+  <% if company.phone? %>
+    <p>
+      <strong>Contact Phone: </strong><%= company.phone %>
+    </p>
+  <% end %>
+  
+  <% if company.fax? %>
+    <p>
+      <strong>Contact Fax: </strong><%= company.fax %>
+    </p> 
+  <% end %>
+  
+</address>

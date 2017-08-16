@@ -1,0 +1,25 @@
+<div id='reviews-carousel' class='carousel slide' data-ride='carousel'>
+  <ol class='carousel-indicators'>
+    <% reviews.each_index do |index| %>
+      <li data-target='#reviews-carousel' data-slide-to='<%= index %>'
+          class='<%= 'active' if index.zero? %>'></li>
+    <% end %>
+  </ol>
+  <div class='carousel-inner' role='listbox'>
+    <% reviews.each_with_index do |review, index| %>
+      <div class='item <%= 'active' if index.zero? %> text-center'>
+        <h1>
+          <%= review.title %>
+        </h1>
+        <h2>
+          <%= review.review %>
+        </h2>
+        <p>
+          <%= render partial:'rating', locals:{rating: review.rating && review.rating.value || 0} %>
+          &nbsp;
+          <%= review.user_name %> - <%= review.date_string %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>

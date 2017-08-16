@@ -1,0 +1,5 @@
+<%= link_to photo do %>
+  <div class='embed-responsive embed-responsive-16by9'>
+    <%= image_tag photo.picture.image.url(:original), alt: '', class: 'img-responsive center-block' %>
+  </div>
+<% end %>

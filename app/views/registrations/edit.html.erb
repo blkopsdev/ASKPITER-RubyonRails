@@ -1,0 +1,91 @@
+<link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css">
+<%= render partial: 'nav_filters' %>
+<div class="sides-indents">
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :role => 'form'}) do |f| %>
+        <%= devise_error_messages! %>
+    <div class="edit-user-background">
+      <div class="authform side-edit-columns" >
+        <h3>Change your details</h3>
+        <div class="form-group">
+          <%= f.text_field :name, :autofocus => true, class: 'form-control', placeholder: "Name" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.email_field :email, class: 'form-control', placeholder: "Email" %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
+        </div>
+
+        <div class="form-group">
+          <%= f.password_field :password, :autocomplete => 'off', class: 'form-control', placeholder: "New Password" %>
+        </div>
+
+        <%= f.fields_for :address do |address_field| %>
+          <div class="form-group">
+            <%= address_field.text_field :country, :autofocus => true,
+                class: 'form-control', placeholder: "Country" %>
+          </div>
+          <div class="form-group">
+            <%= address_field.text_field :city, :autofocus => true, class: 'form-control', placeholder: "City"%>
+          </div>
+        <% end %>
+
+        <div style="display: none;"><%= render 'layouts/upload_button'%> </div>
+
+        <%= image_tag(current_user.picture.url(:thumbnail)) if current_user.picture %>
+        </br>
+        <% picture_image = current_user.picture ? "Change your Profile image" : "Upload your Profile image" %>
+        <%= modal_button_tag picture_image, modals_path(action: :add_picture), { link: true, imageable_type: "User", imageable_id: current_user.id  } %>
+
+        <div><%= f.submit 'Update', :class => 'button right' %></div>
+
+        </br>
+        </br>
+        </br>
+        </br>
+
+        <h3>Language</h3>
+		<%= content_tag(:ul, class: "list-group reg-fa-square") {%>
+			<% Language.all.collect do |p| %>				
+				<%= content_tag(:li, nil, class: "list-group-item") { %>
+					<% if current_user.language == p %>
+						<span class="fa fa-check-square-o"></span>
+					<% else %>
+						<span class="fa fa-square-o"></span>
+					<% end %>
+					<%= p.name %>
+				<% }%>
+			<% end %>
+		<% } %>
+        </br>
+        </br>
+        </br>
+
+        <h3>Currency</h3>
+		<%= content_tag(:ul, class: "list-group reg-fa-square") do %>
+			<% Currency.all.collect do |p| %>				
+				<%= content_tag(:li, nil, class: "list-group-item") { %>
+					<% if current_user.currency == p %>
+						<span class="fa fa-check-square-o"></span>
+					<% else %>
+						<span class="fa fa-square-o"></span>
+					<% end %>
+					<%= p.name %>
+				<% }%>
+			<% end %>
+		<% end %>
+        </br>
+        </br>
+        </br>
+      </div>
+    <%= render partial: 'filters' %>
+    </div>
+  <% end %>
+
+  <div class="authform">
+    <h3>Cancel Account</h3>
+    <p>Unhappy? We'll be sad to see you go.</p>
+    <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button right' %>
+  </div>
+</div>

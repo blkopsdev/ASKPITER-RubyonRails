@@ -1,0 +1,19 @@
+<div class="review-unit">
+  <div class="review-title">
+    <h3>Skeleton Key - DHD</h3>
+  </div>
+  <div class="row review-rating-body">
+    <div class="col-md-8 review-rating">
+      <%= render 'products/rating', rating: review.product.rating %>
+      <p>It works very well...</p>
+    </div>
+    <div class="col-md-4 review-date">
+      <p class="text-right"><%= review.created_at.strftime("%d %b %H:%M") %></p>
+    </div>
+  </div>
+  <div class="review-description">
+    <p>
+      <%= truncate review.review, length: 110, separator: ' ' %>
+    </p>
+  </div>
+</div>

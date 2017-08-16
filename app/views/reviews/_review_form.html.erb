@@ -1,0 +1,13 @@
+<%= form_for @review, url: {action: "create"}, html: {class: "form-horizontal"} do |f| %>
+  <div class='form-group'>
+    <%= f.text_field :title, class: 'form-control', placeholder: 'Title', required: true %>
+  </div>
+  <div class='form-group'>
+    <%= f.text_area :review, class: 'form-control',
+                             placeholder: 'Post your review and help others...',
+                             rows: 7,
+                             required: true %>
+  </div>
+  <%= render partial: 'reviews/review_rating_form' , locals:{form:f}%>
+  <%= f.submit "", id:'submit-review', class:'btn btn-default', style:"display:none;"%>
+<% end %>

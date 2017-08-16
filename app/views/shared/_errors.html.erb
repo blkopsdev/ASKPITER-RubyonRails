@@ -1,0 +1,9 @@
+<% unless errors.full_messages.empty? %>
+  <ul class='list-group'>
+    <% errors.full_messages.each do |message| %>
+      <li class='list-group-item text-danger'>
+        <%= message %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -1,0 +1,10 @@
+<div class='thumb-wrapper'>
+  <%= link_to photo do %>
+  <div class='embed-responsive embed-responsive-16by9'>
+    <%= image_tag photo.picture.image.url(:original), alt: '', class: 'img-responsive center-block' %>
+  </div>
+  <% end %>
+  <div class='thumb-description text-center'>
+    <%= truncate photo.comment, length: 110, separator: ' '%>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class='photo-wrapper'>
+  <div class='flex thumb-header'>
+    <span class='thumb-header-abbr'>
+        <%=photo.product && photo.product.company && photo.product.company.name %>
+    </span>
+    <span class='thumb-time-date'>
+      <span class='glyphicon glyphicon-time'></span>
+      <span>
+        <%= photo.created_at.strftime("%d %b %H:%M") %>
+      </span>
+    </span>
+  </div>
+  <%= link_to photo do%>
+    <div class='embed-responsive embed-responsive-16by9'>
+      <%= image_tag photo.picture.image.url(:thumbnail), alt: '', class: 'img-responsive center-block' %>
+    </div>
+  <% end %>
+  <div class='row flex thumb-footer'>
+    <span class='thumb-footer-model col-md-5 col-sm-5 col-xs-5'>
+      <%= link_to photo.product do %>
+        <%= photo.product.name%> <%= "(#{photo.product.year})" if photo.product.year%>
+      <% end %>
+    </span>
+    <div class='thumb-star-wrapper col-md-7 col-sm-7 col-xs-7'>
+      <%= render 'products/rating', rating: photo.product.rating %>
+    </div>
+  </div>
+  <div class='thumb-description text-left'>
+    <p>
+      <%= truncate photo.comment, length: 110, separator: ' ' %>
+    </p>
+  </div>
+  <div class='thumb-moreinfo-link'>
+    <%= link_to 'More Info...', photo.product %>
+  </div>
+</div>

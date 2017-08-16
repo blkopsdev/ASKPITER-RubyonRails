@@ -1,0 +1,71 @@
+<aside class="side-panel-wrapper search-side-panel side-panel-wrapper-fix">
+  <% if user_signed_in? %>
+
+    <%= render layout: 'left_filter',
+        locals: { filter_name: 'Favourites', filter_type: 'favourites', icon_class: 'glyphicon glyphicon-star' } do %>
+      <% current_user.favourite_products.last(10).each do |product| %>
+        <div class="filter-wrapper">
+            <span class="glyphicon glyphicon-trash"></span>
+            <span class="filter-name">
+              <%= link_to product.name, product %>
+            </span>
+        </div>
+      <% end  %>
+    <% end %>
+
+    <%= render layout: 'left_filter',
+        locals: { filter_name: 'History Search', filter_type: 'history-search', icon_class: 'glyphicon glyphicon-search' } do %>
+      <% current_user.searches.recent.each do |search| %>
+      <div class="filter-wrapper">
+        <%= search_link [ param_change( :update, :delete_search, search.id) ] do %>
+            <span class="glyphicon glyphicon-trash"></span>
+          <% end  %>
+          <span class="filter-name">
+            <%= search_link search.text, [ param_change( :update, :search, search.text) ] %>
+          </span>
+      </div>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= form_tag(sub_category_path(@sub_category, format: :js), method: 'get', id: 'filter_form', remote: true) do %>
+
+
+    <%= render layout: 'left_filter',
+        locals: { filter_name: 'Year', filter_type: 'year', icon_class: 'glyphicon glyphicon-plane' } do %>
+        <%= render partial: 'year_filter', locals: { years: @sub_category.products.map {|p| p.year}.uniq } %>
+    <% end %>
+
+    <%= render layout: 'left_filter',
+        locals: { filter_name: 'Price', filter_type: 'prive', icon_class: 'glyphicon glyphicon-plane' } do %>
+        <%= render partial: 'price_filter', locals: { prices: @sub_category.prices.map {|p| p.amount}.uniq } %>
+    <% end %>
+
+    <%= render layout: 'left_filter',
+        locals: { filter_name: 'International Brands', filter_type: 'international-brands', icon_class: 'glyphicon glyphicon-plane' } do %>
+      <% @sub_category.companies.international(@user_country).uniq.each do |company| %>
+        <%= render partial: 'company_filter', locals: { company: company } %>
+      <% end %>
+    <% end %>
+
+    <%= render layout: 'left_filter',
+        locals: { filter_name: 'Local Brands', filter_type: 'international-brands', icon_class: 'glyphicon glyphicon-plane' } do %>
+      <% @sub_category.companies.local(@user_country).uniq.each do |company| %>
+        <%= render partial: 'company_filter', locals: { company: company } %>
+      <% end %>
+    <% end %>
+
+    <% @filters.each do |filt| %>
+      <%= render layout: 'left_filter',
+          locals: { filter_name: filt.name, filter_type: filt.name, icon_class: 'glyphicon glyphicon-home' } do %>
+        <% filt.filter_options.each do |option| %>
+          <%= render partial: 'filter_options', locals: { option: option } %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+  <% end %>
+
+
+
+</aside>

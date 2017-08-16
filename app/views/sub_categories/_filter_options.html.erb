@@ -1,0 +1,14 @@
+
+<div class="filter-wrapper">
+    <a class='sub-filter-checkbox'>
+      <label class="checkbox-style">
+
+        <%= check_box_tag "filters[]", option.id,
+                                       params[:filters] && params[:filters].include?(option.id.to_s),
+                                       :id => "checkbox_" + option.id.to_s,
+                                       :class => "check__form" %>
+      </label>
+      <label for="<%= "checkbox_#{option.id}" %>" class="filter-name"><%= option.name %></label>
+    </a>
+</div>
+

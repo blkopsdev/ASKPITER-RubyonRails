@@ -1,0 +1,10 @@
+
+
+(function() {
+
+    var $html = $('<%=j render partial: "sub_categories/products", locals: { products: @products } %>');
+
+    $('#products_goes_here').replaceWith($html);
+
+}());
+

@@ -1,0 +1,12 @@
+.breadcrumb.cover {
+  background-color: transparent !important;
+  a {
+    color: #fff;
+  }
+  > li + li:before {
+    color: #ccc;
+    font-family: 'Glyphicons Halflings';
+    content: "\e080";
+    padding: 0 5px;
+  }
+}

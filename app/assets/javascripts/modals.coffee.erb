@@ -1,0 +1,155 @@
+<% data_namespace = 'askpiter' %>
+$ ->
+  modal_selector   = '#modal'
+  modal_active_key = <%= "'#{data_namespace}.modal.active'" %>
+  modal_owner_key  = <%= "'#{data_namespace}.modal.owner'" %>
+  modal_title_key  = <%= "'#{data_namespace}.modal.elements.title'" %>
+  modal_body_key   = <%= "'#{data_namespace}.modal.elements.body'" %>
+  modal_footer_key   = <%= "'#{data_namespace}.modal.elements.footer'" %>
+  modal_data_key   = <%= "'#{data_namespace}.modal.data'" %>
+  cacheable_key    = <%= "'#{data_namespace}.cacheable'" %>
+
+  spinner_data =
+    title: 'Loading page...'
+    body: $('#spinner').html()
+
+  open_modal = (event) ->
+    event.preventDefault()
+    modal = $ modal_selector
+    return unless modal.length
+    modal.data modal_active_key, true
+
+    owner = $ this
+    owner.data cacheable_key, cacheable = !owner.attr('data-disable-cache')
+
+    unless cacheable && same_owner(modal, owner)
+
+      modal.data modal_owner_key,  owner
+      modal.data modal_title_key,  modal.find '.modal-title'
+      modal.data modal_body_key,   modal.find '.modal-body'
+      modal.data modal_footer_key,   modal.find '.modal-footer'
+
+      if cacheable && data = owner.data modal_data_key
+        update_modal_data modal, data
+      else
+        update_modal_data modal, spinner_data
+        load_modal modal, owner
+
+    modal.modal 'show'
+    true
+
+  close_modal = (modal, owner) ->
+    modal.modal 'hide' if modal_active(modal, owner)
+    true
+
+  modal_active = (modal, owner) ->
+    modal.data(modal_active_key) && same_owner(modal, owner)
+
+  same_owner = (modal, owner) ->
+    owner.is modal.data modal_owner_key
+
+  load_modal = (modal, owner) ->
+    form = owner.find 'form'
+    $.ajax form.attr('action'),
+      data:    form.serialize()
+      method:  form.attr('method')
+      success: (data) -> process_loaded_data(modal, data, owner)
+    true
+
+  process_loaded_data = (modal, data, owner) ->
+    owner.data modal_data_key, data if owner.data cacheable_key
+    update_modal modal, data, owner
+    true
+
+  update_modal = (modal, data, owner) ->
+    update_modal_data modal, data if modal_active modal, owner
+    true
+
+  update_modal_data = (modal, data) ->
+    update_title  modal, data.title
+    update_body   modal, data.body
+    update_footer   modal, data.footer
+    attach_events modal, data.events
+    modal.modal 'handleUpdate'
+    inintSelect modal
+    true
+
+  update_title = (modal, title) ->
+    modal.data(modal_title_key).text(title || '')
+    true
+
+  update_body = (modal, body) ->
+    modal.data(modal_body_key).html(body || '')
+    true
+
+  update_footer = (modal, footer) ->
+    modal.data(modal_footer_key).html(footer) if footer
+    true
+
+  attach_events = (modal, events) ->
+    return unless events
+    owner = modal.data modal_owner_key
+
+    $.each events, (name, params) ->
+
+      if params.close
+
+        handler = ->
+          close_modal $(this), owner
+          true
+
+      else
+
+        data =
+          title: params.title || params.spinner && spinner_data.title
+          body:  params.body  || params.spinner && spinner_data.body
+
+        handler = ->
+          update_modal $(this), data, owner
+          true
+
+      modal.one name, handler
+      true
+
+    true
+
+  inintSelect = (modal) ->
+    modal.find('.select-former').change (e) ->
+      $this = $(this)
+      val = $this.val()
+      return if val == ''
+
+      selector = '[data-select="product"]'
+      if $this.data('select') == 'category'
+        selector += ', [data-select="company"]'
+      $nextSelects = modal.find(selector)
+      $nextSelects.val('').prop('disabled', true)
+
+      url = '/modals/fetch?' + $this.data('select') + '_id=' + val
+      $.getJSON url, (data) ->
+        $nextSelects.prop('disabled', false)
+        keys = Object.keys(data)
+        $.each keys, (j) ->
+          key = keys[j]
+          objs = data[key]
+          $select = modal.find('[data-select="' + key + '"]')
+          origin = $select.val()
+          existing = false
+          html = '<option value="">Please select</option>'
+          $.each objs, (i) ->
+            obj = objs[i]
+            html += '<option value="' + obj.id + '"'
+            if origin == obj.id.toString()
+              html += ' selected'
+              existing = true
+            html += '>' + obj.name + '</option>'
+          $select.html(html)
+          $select.val('') unless existing
+
+  $(document).on 'hide.bs.modal', modal_selector, ->
+    $(this).data modal_active_key, false
+    true
+
+  $(document).on 'click', 'button.show-modal, a.show-modal', open_modal
+
+  true

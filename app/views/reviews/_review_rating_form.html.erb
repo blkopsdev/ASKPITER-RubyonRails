@@ -1,0 +1,13 @@
+<%= form.fields_for :rating do |rating_form| %>
+
+  <div class="row">
+      <ul id="rating-widget" class="c-rating"></ul>
+  </div>
+
+  <script>
+    document.linkRating({widget:'#rating-widget', field:'#set-rating-field'});
+  </script>
+
+  <%= rating_form.hidden_field :value, id:'set-rating-field' %>
+
+<% end %>

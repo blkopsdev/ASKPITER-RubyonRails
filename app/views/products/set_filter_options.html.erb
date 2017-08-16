@@ -1,0 +1,41 @@
+<li class="check_boxes input optional" id="product_filter_options_input">
+    <fieldset class="choices">
+        <legend class="label">
+            <label>Filter Options</label>
+        </legend>
+        <input type="hidden" name="product[filter_option_ids][]" id="product_filter_options_none" value="">
+
+
+        <ol class="choices-group">
+            <% @filter_options.each do |filter_option| %>
+                <li class="choice">
+                    <label for="product_filter_option_ids_<%= filter_option.id %>">
+                        <% if @product %>
+                            <% if @product.filter_options.include? filter_option %>
+                                <input type="checkbox"
+                                       checked="checked"
+                                       name="product[filter_option_ids][]"
+                                       id="product_filter_option_ids_<%= filter_option.id %>"
+                                       value="<%= filter_option.id %>">
+                                <%= filter_option.name  %>
+                            <% else %>
+                                <input type="checkbox"
+                                       name="product[filter_option_ids][]"
+                                       id="product_filter_option_ids_<%= filter_option.id %>"
+                                       value="<%= filter_option.id %>">
+                                <%= filter_option.name  %>
+                            <% end %>
+                        <% else %>
+                            <input type="checkbox"
+                                   name="product[filter_option_ids][]"
+                                   id="product_filter_option_ids_<%= filter_option.id %>"
+                                   value="<%= filter_option.id %>">
+                            <%= filter_option.name  %>
+                        <% end %>
+                    </label>
+                </li>
+            <% end %>
+        </ol>
+    </fieldset>
+</li>
+

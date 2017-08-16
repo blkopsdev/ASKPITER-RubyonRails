@@ -1,0 +1,10 @@
+<div class="filter-group <%= filter_type %>" data-type="<%= filter_type %>">
+  <div class="filter-heading-wrapper">
+    <span aria-hidden="true"></span>
+    <span class="filter-group-heading"><%= filter_name %></span>
+    <span class="filter-group-arrow glyphicon glyphicon-play"></span>
+  </div>
+  <div class="filter-group-contents">
+    <%= yield %>
+  </div>
+</div>

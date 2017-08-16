@@ -1,0 +1,14 @@
+<% content_for :messages do %>
+  <%= render partial: 'layouts/messages', locals: { flash_class: 'floating' } %>
+<% end %>
+
+<div class="home-page">
+  <div class="home-page-text">
+    <p>Ask Pieter comes for a need we have experienced. We, as you, are extreme sport lovers, outdoor lovers, and we really hope you find this web useful.</p>
+    <p>Enjoy life, enjoy AskPieter!</p>
+    <p>The team.</p>
+    <div class="search-box">
+      <%= render 'layouts/search_box' %>
+    </div>
+  </div>
+</div>

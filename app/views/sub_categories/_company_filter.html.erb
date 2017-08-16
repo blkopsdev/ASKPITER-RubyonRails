@@ -1,0 +1,15 @@
+
+
+<div class="filter-wrapper">
+    <a class='sub-filter-checkbox'>
+      <label class="checkbox-style">
+
+        <%= check_box_tag "companies[]", company.id,
+                                       params[:companies] && params[:companies].include?(company.id.to_s),
+                                       :id => "checkbox_com_" + company.id.to_s,
+                                       :class => "check__form" %>
+      </label>
+      <label for="<%= "checkbox_com_#{company.id}" %>" class="filter-name"><%= company.name %></label>
+    </a>
+</div>
+

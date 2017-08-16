@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Askpiter" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Askpiter" %>">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= render 'modals/modal' %>
+    <section class="main-wrapper">
+      <%= render 'layouts/header' %>
+      <%= content_for?(:messages) ? yield(:messages) : render( 'layouts/messages' ) %>
+      <%= yield %>
+      <%= render 'layouts/footer' %>
+    </section>
+    <%= render partial: 'shared/bootstrap_modal', locals: { modal_id: 'SignInModal', modal_partial: 'devise/shared/log_in' } %>
+  </body>
+</html>

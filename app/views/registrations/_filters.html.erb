@@ -1,0 +1,73 @@
+<div class="authform right-filter">
+        <aside class="panel-wrapper search-side-panel">
+          <% if user_signed_in? %>
+            <%= render layout: 'right_filter', 
+                locals: { filter_name: 'Favourites', filter_type: 'favourites' } do %>
+              <% current_user.favourite_categories.each do |category| %>
+                <div class="filter-wrapper" id="category-<%= category.id%>">
+                    <%= link_to "<span class='glyphicon glyphicon-trash' id='trash-category-#{category.id}' </span>".html_safe, ajax_destroy_favourite_path(favourite_name: "Category", favourite_id: category.id), remote: true %>
+                    <span class="filter-name">
+                      <%= search_link category.name, [ param_change( :update, :category_id, category.id) ] %>
+                    </span>
+                </div>
+              <% end  %>
+              <% current_user.favourite_companies.each do |company| %>
+                <div class="filter-wrapper" id="company-<%= company.id%>">
+                    <%= link_to "<span class='glyphicon glyphicon-trash' id='trash-company-#{company.id}'></span>".html_safe, ajax_destroy_favourite_path(favourite_name: "Company", favourite_id: company.id), remote: true %>
+                    <span class="filter-name">
+                      <%= search_link company.name, [ param_change( :update, :company_id, company.id) ] %>
+                    </span>
+                </div>
+              <% end  %>
+              <% if current_user.favourites.present? %>
+				  <div class="filter-wrapper" id="eliminate-all">
+					<%= link_to "<span class='glyphicon glyphicon-trash' id='trash-favourites}'</span>".html_safe, ajax_destroy_all_favourites_path, data: {confirm: 'Delete all your Favourites?'}, remote: true %>
+					<span class='destroy_all_link'>
+					  <%= link_to "Eliminate all", ajax_destroy_all_favourites_path, data: {confirm: 'Delete all your Favourites?'}, remote: true %>
+					</span>
+				  </div>
+			  <% end %>
+            <% end %>      
+            <%= render layout: 'right_filter', 
+                locals: { filter_name: 'History Search', filter_type: 'history-search' } do %>
+              <% current_user.searches.recent.each do |search| %>
+              <div class="filter-wrapper" id="search-<%= search.id%>">
+                <%= search_link [ param_change( :update, :delete_search, search.id) ] do %>
+                  <%= link_to "<span class='glyphicon glyphicon-trash' id='trash-search-#{search.id}'></span>".html_safe, ajax_destroy_recent_search_path(filter_name: "Search", filter_id: search.id), remote: true %>
+                  <% end  %>
+                  <span class="filter-name">
+                    <%= search_link search.text, [ param_change( :update, :search, search.text) ] %>
+                  </span>
+              </div>
+              <% end %>
+              <% if current_user.searches.recent.present?%>
+				  <div class="filter-wrapper" id="eliminate-all">
+					<%= link_to "<span class='glyphicon glyphicon-trash' id='trash-favourites}'</span>".html_safe, ajax_destroy_recent_searches_path, data: {confirm: 'Delete all your recent searches?'}, remote: true %>
+					<span class='destroy_all_link'>
+					  <%= link_to "Eliminate all", ajax_destroy_recent_searches_path, data: {confirm: 'Delete all your recent searches?'}, remote: true %>
+					</span>
+				  </div>
+              <% end %>  
+            <% end %>
+            <%= render layout: 'right_filter', 
+                locals: { filter_name: 'Your Categories', filter_type: 'category-search' } do %>
+              <% current_user.favourite_categories.each do |category| %>
+                <div class="filter-wrapper" id="category-<%= category.id%>">
+                    <%= link_to "<span class='fa fa-check-square' id='trash-category-#{category.id}' </span>".html_safe, ajax_destroy_favourite_path(favourite_name: "Category", favourite_id: category.id), remote: true %>
+                    <span class="filter-name">
+                      <%= search_link category.name, [ param_change( :update, :category_id, category.id) ] %>
+                    </span>
+                </div>
+              <% end  %>
+              <% current_user.favourite_categories.each do |category| %>
+                <div class="filter-wrapper" id="category-<%= category.id%>">
+                    <%= link_to "<span class='fa fa-square-o' id='trash-category-#{category.id}' </span>".html_safe, ajax_destroy_favourite_path(favourite_name: "Category", favourite_id: category.id), remote: true %>
+                    <span class="filter-name">
+                      <%= search_link category.name, [ param_change( :update, :category_id, category.id) ] %>
+                    </span>
+                </div>
+              <% end  %>
+            <% end %>			
+          <% end %>
+        </aside>
+      </div>

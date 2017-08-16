@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css">
+<%= render partial: 'registrations/nav_filters' %>
+<div class="container review-wrapper center-block">
+  <div class="header-title text-center">
+    <h2>Your Latest Reviews - Thanks for collaborating :)</h2>
+  </div>
+  <div class="review-section">
+    <%= render partial: 'review_result' %>
+  </div>
+  <div class="flex review-showmore-thumbs-row">
+    <div class="plus-button-wrapper">
+      <%= review_link [param_change(:update, :page, @media.next_page)], "data-remote": true do %>
+        <i class="zmdi zmdi-plus-circle-o"></i>
+      <% end %>
+    </div>
+    <div class="showmore-text-wrapper">
+      <%= review_link [param_change(:update, :page, @media.next_page)], { class: "show-more-text", 'data-remote': true } do %>
+        <span>More Listing</span>
+      <% end %>
+    </div>
+  </div>
+</div>

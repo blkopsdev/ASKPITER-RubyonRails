@@ -1,0 +1,165 @@
+<div class='main-container'>
+  <main class='main-content-wrapper'>
+    <%= render 'breadcrumbs' %>
+    <div class='page-header'>
+      <h1>
+        <%= product.name %>
+      </h1>
+    </div>
+    <div class='container-fluid'>
+      <div class='row'>
+        <div class='col-md-2 visible-md visible-lg'>
+          <%= picture_thumbnails pictures %>
+          <% 5.times do %>
+            <%= image_tag product.picture_url, alt: '', class: 'product-image-small' %>
+          <% end %>
+        </div>
+        <div class='col-md-10'>
+          <%= image_tag product.picture_url, alt: '', id: 'large-image', class: 'img-responsive center-block' %>
+        </div>
+      </div>
+    </div>
+  </main>
+  <aside class='side-panel-wrapper'>
+    <div class='product-brief'>
+      <h1>
+        Price: <%= product.price_string %>
+      </h1>
+      <p>
+        <%= render 'rating', rating: product.rating %>
+      </p>
+      <% if product.url.present? %>
+        <p>
+          <%= link_to 'Product Website', product.url, :target => "_blank" %>
+        </p>
+      <% end %>
+      <p>
+        <% if user_signed_in? %>
+          <% if product.users.include? current_user %>
+            Added to Favourites <%= link_to '(Remove)', remove_product_user_favourite_products_path(@product) %>
+          <% else %>
+            <%= link_to 'Add to Favourites', add_product_user_favourite_products_path(@product) %>
+          <% end %>
+        <% end %>
+      </p>
+    </div>
+  </aside>
+</div>
+
+<!-- description section -->
+<div class='product-description text-center'>
+  <%= product.description %>
+</div>
+
+<!-- reviews section -->
+<div class='product-reviews'>
+  <%= render 'reviews', reviews: reviews unless reviews.empty? %>
+  <div class='buttons text-center'>
+    <%= link_to 'Read More Reviews', '#', class: 'btn btn-default', role: 'button' %>
+    <%= modal_button_tag 'Add a review',
+        new_product_review_path(@product),
+        method: :get,
+        link: true,
+        class:'btn btn-default' %>
+  </div>
+</div>
+
+<!-- photos section -->
+<div class='product-assets product-photos text-center'>
+  <h1>Latest photos of <%= product.name %></h1>
+  <div class="main-container">
+    <div class="main-content-wrapper">
+      <div class="flex thumbs-matrix-wrapper photo-wrapper">
+        <%= render partial: 'product_photo', locals: { results: @photos } %>
+      </div>
+    </div>
+  </div>
+  <div class='buttons' id="show-photo">
+    <%= link_to "Show more (#{product.photos_count - 2})",
+                product_path(product, photo: @photos.next_page),
+                { class: 'btn btn-default', role: 'button', 'data-remote': true}  %>
+    <% if user_signed_in? %>
+      <%= modal_button_tag 'Upload', modals_path(action: :add_photo),
+                           class: 'btn btn-success pull-right',
+                           product_id: product.id %>
+    <% end %>
+  </div>
+</div>
+
+<!-- videos section -->
+<div class='product-assets product-videos text-center'>
+  <h1>Latest videos of <%= product.name %></h1>
+  <div class="main-container">
+    <div class="main-content-wrapper">
+      <div class="flex thumbs-matrix-wrapper video-wrapper">
+        <%= render partial: 'product_video', locals: { results: @videos } %>
+      </div>
+    </div>
+  </div>    <div class='buttons' id="show-video">
+        <%= link_to "Show more (#{product.videos_count - 2})",
+                    product_path(product, video: @videos.next_page),
+                    { class: 'btn btn-default', role: 'button', 'data-remote': true}  %>
+    <% if user_signed_in? %>
+      <%= modal_button_tag 'Upload', modals_path(action: :add_video),
+                           class: 'btn btn-success pull-right',
+                           product_id: product.id %>
+    <% end %>
+  </div>
+</div>
+
+<!-- details section -->
+<div class='product-assets product-details text-center'>
+  <div>
+    <ul class='nav nav-pills' role='tablist'>
+      <li role='presentation' class='active'>
+        <a href='#characteristics' aria-controls='characteristics' role='tab' data-toggle='pill'>
+          Characteristics
+        </a>
+      </li>
+      <li role='presentation'>
+        <a href='#company' aria-controls='company' role='tab' data-toggle='pill'>
+          Company
+        </a>
+      </li>
+      <li role='presentation'>
+        <a href='#distributors' aria-controls='distributors' role='tab' data-toggle='pill'>
+          Where to buy it
+        </a>
+      </li>
+    </ul>
+    <div class='tab-content container text-left'>
+      <div role='tabpanel' class='tab-pane active' id='characteristics'>
+        <%= render partial: 'characteristic', collection: product.characteristics %>
+        <% unless product.dimensions.empty? %>
+          <h1>Dimensions:</h1>
+          <% product.dimensions.each do |dimension| %>
+            <p><%= dimension.text %></p>
+          <% end %>
+        <% end %>
+      </div>
+      <div role='tabpanel' class='tab-pane' id='company'>
+        <%= render 'company', company: product.company if product.company %>
+      </div>
+      <div role='tabpanel' class='tab-pane' id='distributors'>
+        <%= render partial: 'distributor', collection: product.distributors %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- similar products section -->
+<div class='product-assets product-similars text-center'>
+  <h1>Similar Products</h1>
+  <div class="main-container">
+    <div class="main-content-wrapper">
+      <div class="flex thumbs-matrix-wrapper similar-wrapper">
+        <%= render partial: 'product_similar', locals: { results: @similars } %>
+      </div>
+    </div>
+  </div>
+  <div class='buttons' id="show-similar">
+    <%= link_to "Show more (#{product.similars_count - 2})",
+                product_path(product, similar: @similars.next_page),
+                { class: 'btn btn-default', role: 'button', 'data-remote': true}  %>
+  </div>
+</div>

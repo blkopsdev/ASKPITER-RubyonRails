@@ -1,0 +1,37 @@
+<div class='thumb-wrapper'>
+  <div class='flex thumb-header'>
+    <span class='thumb-header-abbr'>
+      <%=video.product && video.product.company && video.product.company.name %>
+    </span>
+    <span class='thumb-time-date'>
+      <span class='glyphicon glyphicon-time'></span>
+      <span>
+        <%= video.created_at.strftime("%d %b %H:%M") %>
+      </span>
+    </span>
+  </div>
+    <div class='embed-responsive embed-responsive-16by9'>
+      <%= link_to video do%>
+        <div class="media-overlay"></div>
+        <iframe class='embed-responsive-item' src='<%= video.url %>'></iframe>
+      <% end %>
+    </div>
+    <div class='flex thumb-footer'>
+      <span class='thumb-footer-model'>
+        <%= link_to video.product do %>
+          <%= video.product.name%> <%= "(#{video.product.year})" if video.product.year%>
+        <% end %>
+      </span>
+      <div class='thumb-star-wrapper'>
+        <%= render 'products/rating', rating: video.product.rating %>
+      </div>
+    </div>
+    <div class='thumb-description text-left'>
+      <p>
+        <%= truncate video.comment, length: 110, separator: ' ' %>
+      </p>
+    </div>
+    <div class='thumb-moreinfo-link'>
+      <%= link_to 'More Info...', video.product %>
+    </div>
+</div>

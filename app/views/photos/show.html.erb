@@ -1,0 +1,40 @@
+<div class='main-container'>
+  <main class='main-content-wrapper'>
+    <%= render partial:'products/breadcrumbs', locals: { product: @product } %>
+    <div class='container-fluid'>
+      <div class='row'>
+        <div class='col-xs-10 col-xs-offset-1'>
+          <div class='embed-responsive embed-responsive-16by9'>
+            <%= image_tag @photo.picture.image.url(:original), alt: '', class: 'img-responsive center-block' %>
+          </div>
+        </div>
+      </div>
+      <div class='row media-info'>
+        <div class='col-xs-10 col-xs-offset-1'>
+
+          <div class="media-description">
+            <p><%= @photo.comment%></p>
+          </div>
+
+          <div class="media-share">
+            <ul class="list-inline">
+              <li><strong>Share this photo</strong></li>
+              <li><a href="#"><%=image_tag asset_path('twitter_img_small.png')%></a></li>
+              <li><a href="#"><%=image_tag asset_path('facebook_img_small.png')%></a></li>
+            </ul>
+          </div>
+
+          <% if @more_photos.any? %>
+          <div class="more-media">
+            <div class="more-media-title">
+              <h2>More <%= @product.name %> Photos</h2>
+            </div>
+            <%= render partial:'photos/show/more_photos', locals: {photos: @more_photos} %>
+          </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

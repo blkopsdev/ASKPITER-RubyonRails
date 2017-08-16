@@ -1,0 +1,27 @@
+<% content_for :messages do %>
+  <%= render partial: 'layouts/messages', locals: { flash_class: 'floating' } %>
+<% end %>
+
+<% content_for :mobile_icons do %>
+  <div class="mobile-burger-menu">
+    <span></span><span></span><span></span>
+  </div>
+<!--  <div class="mobile-filter-button"></div>-->
+<% end %>
+
+<%= render 'filters_header' %>
+
+<div class="main-container">
+
+  <%= render 'left_filters' %>
+
+  <!-- MAIN CONTENTS LAYOUT -->
+  <main class="main-content-wrapper b-l-320">
+    <div>
+
+
+        <%= render partial: 'products', locals: { products: @products } %>
+
+    </div>
+  </main>
+</div>

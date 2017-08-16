@@ -1,0 +1,28 @@
+<%= addendum_storage 'picture' %>
+
+<%= form_for Picture.new, url: pictures_path, html: { multipart: true, class: 'form-horizontal' } do |form| %>
+
+  <%= form.hidden_field :imageable_id,   value: params[:imageable_id] %>
+  <%= form.hidden_field :imageable_type, value: params[:imageable_type] %>
+
+  <div class='form-group'>
+    <%= form.label :title, class: 'col-sm-2 control-label' %>
+    <div class='col-sm-10'>
+      <%= form.text_field :title, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :image, class: 'col-sm-2 control-label' %>
+    <div class='col-sm-10'>
+      <%= form.file_field :image, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class='form-group'>
+    <div class='col-sm-offset-2 col-sm-10'>
+      <%= form.submit class: 'btn btn-primary' %>
+    </div>
+  </div>
+
+<% end %>

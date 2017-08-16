@@ -1,0 +1,53 @@
+<div class="flex thumbs-matrix-wrapper search-results-container" id="products_goes_here">
+<% if products.count == 0 %>
+  <div class="flash alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    Sorry, your search returned no products.
+  </div>
+<% else %>
+  <% products.each do |product| %>
+
+    <div class='thumb-wrapper'>
+      <div class='flex thumb-header'>
+        <span class='thumb-header-abbr'>
+            <%= product.name && product.company && product.company.name %>
+        </span>
+        <span class='thumb-time-date'>
+          <span class='glyphicon glyphicon-time'></span>
+          <span>
+            <%= product.created_at.strftime("%d %b %H:%M") %>
+          </span>
+        </span>
+
+      </div>
+        <%= link_to product do %>
+          <div class='embed-responsive embed-responsive-16by9'>
+            <%= image_tag product.picture.url, alt: product.name, class: 'img-responsive center-block' %>
+          </div>
+        <% end %>
+        <div class='flex thumb-footer'>
+          <span class='thumb-footer-model'>
+            <%= link_to product do %>
+              <%= product.name%> <%= "(#{product.year})" if product.year%>
+            <% end %>
+          </span>
+          <div class='thumb-star-wrapper'>
+
+            <%= product.actual_price.amount %>
+            <%= product.prices.first.currency.sign %>
+          </div>
+        </div>
+        <div class='thumb-description text-left'>
+          <p>
+            <%= truncate product.description, length: 110, separator: ' ' %>
+          </p>
+        </div>
+        <div class='thumb-moreinfo-link'>
+          <%= link_to 'More Info...', product %>
+        </div>
+    </div>
+
+  <%end %>
+<% end %>
+</div>
+

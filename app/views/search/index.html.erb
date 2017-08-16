@@ -1,0 +1,49 @@
+<% content_for :messages do %>
+  <%= render partial: 'layouts/messages', locals: { flash_class: 'floating' } %>
+<% end %>
+
+<% content_for :mobile_icons do %>
+  <div class="mobile-burger-menu">
+    <span></span><span></span><span></span>
+  </div>
+<!--  <div class="mobile-filter-button"></div>-->
+<% end %>
+
+<%= render 'search_header' %>
+
+<div class="main-container">
+
+  <%= render 'left_filters' %>
+
+  <!-- MAIN CONTENTS LAYOUT -->
+  <main class="main-content-wrapper">
+    <div>
+      <div class="flex applied-filters-wrapper">
+        <div></div>
+        <% @filters.each do |filter| %>
+          <div class="applied-filter">
+            <%= link_to search_index_path(update_params(params, :remove, filter.type, filter.id)), data: { 'turbolinks-scroll': false }  do %>
+              <span class="glyphicon glyphicon-remove"></span>
+            <% end %>
+            <span class="applied-filter-text"><%= filter.name %></span>
+          </div>
+        <% end %>
+      </div>
+      <div class="flex thumbs-matrix-wrapper search-results-container">
+        <%= render partial: 'search_results' %>
+      </div>
+      <div class="flex showmore-thumbs-row">
+          <div class="plus-button-wrapper">
+            <%= search_link [param_change(:update, :page, @media.next_page)], "data-remote": true do %>
+              <i class="zmdi zmdi-plus-circle-o"></i>
+            <% end %>
+          </div>
+          <div class="showmore-text-wrapper">
+            <%= search_link [param_change(:update, :page, @media.next_page)], { class: "show-more-text", 'data-remote': true } do %>
+              <span>More Listing</span>
+            <% end %>
+          </div>
+      </div>
+    </div>
+  </main>
+</div>

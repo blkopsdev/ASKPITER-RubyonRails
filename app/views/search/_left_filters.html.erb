@@ -1,0 +1,53 @@
+<aside class="side-panel-wrapper search-side-panel">
+  <% if user_signed_in? %>
+
+    <%= render layout: 'left_filter',
+        locals: { filter_name: 'Favourites', filter_type: 'favourites', icon_class: 'glyphicon glyphicon-star' } do %>
+      <% current_user.favourite_products.last(10).each do |product| %>
+        <div class="filter-wrapper">
+            <span class="glyphicon glyphicon-trash"></span>
+            <span class="filter-name">
+              <%= link_to product.name, product %>
+            </span>
+        </div>
+      <% end  %>
+    <% end %>
+
+    <%= render layout: 'left_filter',
+        locals: { filter_name: 'History Search', filter_type: 'history-search', icon_class: 'glyphicon glyphicon-search' } do %>
+      <% current_user.searches.recent.each do |search| %>
+      <div class="filter-wrapper">
+        <%= search_link [ param_change( :update, :delete_search, search.id) ] do %>
+            <span class="glyphicon glyphicon-trash"></span>
+          <% end  %>
+          <span class="filter-name">
+            <%= search_link search.text, [ param_change( :update, :search, search.text) ] %>
+          </span>
+      </div>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render layout: 'left_filter',
+      locals: { filter_name: 'Your Categories', filter_type: 'your-categories', icon_class: 'glyphicon glyphicon-home' } do %>
+    <% @categories.all.each do |category| %>
+      <%= render partial: 'category_filter', locals: { category: category } %>
+    <% end %>
+  <% end %>
+
+  <%= render layout: 'left_filter',
+      locals: { filter_name: 'International Brands', filter_type: 'international-brands', icon_class: 'glyphicon glyphicon-plane' } do %>
+    <% Company.international(@user_country)
+              .with_sub_categories(params[:sub_categories]).each do |company| %>
+      <%= render partial: 'company_filter', locals: { company: company } %>
+    <% end %>
+  <% end %>
+
+  <%= render layout: 'left_filter',
+      locals: { filter_name: 'Local Brands', filter_type: 'local-brands', icon_class: 'zmdi zmdi-directions-walk' } do %>
+    <% Company.local(@user_country)
+              .with_sub_categories(params[:sub_categories]).each do |company| %>
+      <%= render partial: 'company_filter', locals: { company: company } %>
+    <% end %>
+  <% end %>
+</aside>

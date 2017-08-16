@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css">
+<%= render partial: 'registrations/nav_filters' %>
+<div class="container settings-wrapper search-results-container center-block">
+  <div class="header-title text-center">
+    <h2>Your Latest Videos - Thanks for uploading :)</h2>
+  </div>
+  <div class="photo-video-section">
+    <%= render partial: 'video_result' %>
+  </div>
+  <div class="clearfix"></div>
+  <div class="flex photo-video-showmore-thumbs-row">
+    <div class="plus-button-wrapper">
+      <%= video_link [param_change(:update, :page, @media.next_page)], "data-remote": true do %>
+        <i class="zmdi zmdi-plus-circle-o"></i>
+      <% end %>
+    </div>
+    <div class="showmore-text-wrapper">
+      <%= video_link [param_change(:update, :page, @media.next_page)], { class: "show-more-text", 'data-remote': true } do %>
+        <span>More Listing</span>
+      <% end %>
+    </div>
+  </div>
+</div>
